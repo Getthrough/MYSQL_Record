@@ -75,7 +75,7 @@ mysql 基准测试：对 mysql 进行的性能测试。基准测试结果应该�
 * 并发量
 
 ### 常用基准测试工具
-####1. mysqlslap
+#### 1. mysqlslap
 ````
 常用参数,可使用 mysqlslap --help 查看详细参数：
 
@@ -104,10 +104,46 @@ mysqlslap --concurrency=1,5,10 --auto-generate-sql --auto-generate-sql-add-autoi
 
 **NOTE:** 如果在控制台使用命令 mysqlslap 提示 `mysqlslap: [ERROR] unknown variable 'default-character-set=utf8'`,则需要把`/etc/mysql/my.conf`文件中 client 配置的`default-character-set=utf8`注释掉。
 
+#### 2 sysbench
+* 安装 sysbench
+````
+* Debian/Ubuntu
+curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | sudo bash
+sudo apt -y install sysbench
 
+* RHEL/CentOS
+curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.rpm.sh | sudo bash
+sudo yum -y install sysbench
+````
+sysbench 常规命令行语法：
+`sysbench [options]... [testname] [command]`
+* testname : 可选的内置测试名称（如 fileio，memory，cpu等），\
+或者其中一个绑定的Lua脚本名称之一，或者是一个自定义的Lua脚本路径
+* command : 指定了测试会执行的动作，如下是几个典型的测试命令：
+````
+* prepare 执行测试需要的准备动作，如为 fileio 测试创建必要的文件或者为基准测试填充测试数据库
+* run 运行测试
+* cleanup 清除测试生成的临时数据
+* help 展示该 testname 可以使用的命令
+````
+使用 `sysbench --help` 可以获取详细的命令使用方法。
 
+````
+mysql 常用参数
+--msyql-db 指定基准测试数据库名
+--mysql-table-engine 指定存储引擎
+--oltp-tables-count 执行反而是表的数量
+--oltp-table-size 执行测试表的数量
+--threads 并发的线程数量
+--time 最大测试时间
+--report-interval 指定输出统计信息的间隔时间
+--mysql-user 执行测试的用户
+--mysql-password 测试用户密码
+````
+使用举例：
+````
 
-2 sysbench
+````
 
 
 
