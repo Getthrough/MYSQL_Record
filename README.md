@@ -26,6 +26,20 @@ character-set-server=utf8
 default-character-set=utf8
 ````
 
+# 进入安全模式修改密码（如果忘记）
+```
+1. mysqld_safe --skip-grant-tables &
+# 输入 mysql
+2. mysql
+# 修改密码
+3. update mysql.user set authentication_string = PASSWORD('root') where User = 'root';
+# 如果修改成功，退出后正常启动进行登录即可
+4. quit
+# 如果提示 user 表无 authentication_string 字段，可以先查看密码字段叫什么
+show create table mysql.user \G;
+# 找到密码字段后修改第 3 步的密码字段名称再执行即可
+```
+
 # 常用数据引擎
 ## Innodb
 
